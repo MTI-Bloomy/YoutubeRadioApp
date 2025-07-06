@@ -32,3 +32,6 @@ $ yarn build:mac
 # For Linux
 $ yarn build:linux
 ```
+
+## Macros
+Ctrl + ^ + O : Toggle Overlay Mode
