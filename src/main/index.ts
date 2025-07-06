@@ -56,63 +56,70 @@ function createWindow(): void {
     console.log(`Overlay is now ${isOverlay ? 'enabled' : 'disabled'}`)
   })
 }
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-  // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
 
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
+const isSingleInstance = app.requestSingleInstanceLock()
+
+if (!isSingleInstance) {
+  console.log('Another instance is already running. Exiting this instance.')
+  app.quit()
+} else {
+  // This method will be called when Electron has finished
+  // initialization and is ready to create browser windows.
+  // Some APIs can only be used after this event occurs.
+  app.whenReady().then(() => {
+    // Set app user model id for windows
+    electronApp.setAppUserModelId('com.electron')
+
+    // Default open or close DevTools by F12 in development
+    // and ignore CommandOrControl + R in production.
+    // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
+    app.on('browser-window-created', (_, window) => {
+      optimizer.watchWindowShortcuts(window)
+    })
+
+    // IPC test
+    ipcMain.on('ping', () => console.log('pong'))
+
+    ipcMain.on('close-window', () => {
+      const currentWindow = BrowserWindow.getFocusedWindow()
+      if (currentWindow) {
+        currentWindow.close()
+      }
+    })
+
+    ipcMain.on('minimize-window', () => {
+      const currentWindow = BrowserWindow.getFocusedWindow()
+      if (currentWindow) {
+        currentWindow.minimize()
+      }
+    })
+
+    const configPath = join(app.getPath('userData'), 'config.json')
+
+    ipcMain.handle('config:load', async () => {
+      console.log(`Loading config from ${configPath}`)
+      if (!fs.existsSync(configPath)) {
+        console.log('Config file does not exist, returning empty config.')
+        return {}
+      }
+      const config = fs.readFileSync(configPath, 'utf-8')
+      return JSON.parse(config)
+    })
+
+    ipcMain.handle('config:save', async (_e, data) => {
+      console.log(`Saving config to ${configPath}`)
+      fs.writeFileSync(configPath, JSON.stringify(data, null, 2))
+    })
+
+    createWindow()
+
+    app.on('activate', function () {
+      // On macOS it's common to re-create a window in the app when the
+      // dock icon is clicked and there are no other windows open.
+      if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    })
   })
-
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
-
-  ipcMain.on('close-window', () => {
-    const currentWindow = BrowserWindow.getFocusedWindow()
-    if (currentWindow) {
-      currentWindow.close()
-    }
-  })
-
-  ipcMain.on('minimize-window', () => {
-    const currentWindow = BrowserWindow.getFocusedWindow()
-    if (currentWindow) {
-      currentWindow.minimize()
-    }
-  })
-
-  const configPath = join(app.getPath('userData'), 'config.json')
-
-  ipcMain.handle('config:load', async () => {
-    console.log(`Loading config from ${configPath}`)
-    if (!fs.existsSync(configPath)) {
-      console.log('Config file does not exist, returning empty config.')
-      return {}
-    }
-    const config = fs.readFileSync(configPath, 'utf-8')
-    return JSON.parse(config)
-  })
-
-  ipcMain.handle('config:save', async (_e, data) => {
-    console.log(`Saving config to ${configPath}`)
-    fs.writeFileSync(configPath, JSON.stringify(data, null, 2))
-  })
-
-  createWindow()
-
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-})
-
+}
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
