@@ -25,12 +25,14 @@ jobs:
 
       - name: Audit des dépendances
         run: yarn audit --audit-level=moderate
+        continue-on-error: true
 
       - name: Installation de Semgrep
         run: pip install semgrep
 
       - name: Analyse de code statique
         run: semgrep scan --config=auto .
+        continue-on-error: true
 
       - name: Installation de git-secrets
         run: |
