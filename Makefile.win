@@ -1,0 +1,70 @@
+# Makefile.win - Commandes d'aide pour Windows
+# Usage: make -f Makefile.win <target>
+
+.PHONY: help install dev dev-watch build build-win build-mac build-linux lint format typecheck clean test
+
+help:
+	@echo =================================
+	@echo   YoutubeRadio - Makefile.win
+	@echo =================================
+	@echo.
+	@echo Targets disponibles :
+	@echo.
+	@echo   make install           - Installe les dépendances
+	@echo   make dev               - Lance l'app en développement
+	@echo   make dev-watch         - Lance en mode dev avec watch
+	@echo   make build             - Compile TypeScript et assets
+	@echo   make build-win         - Build complet pour Windows
+	@echo   make build-mac         - Build complet pour macOS
+	@echo   make build-linux       - Build complet pour Linux
+	@echo   make lint              - Vérifie le code (ESLint)
+	@echo   make format            - Formate le code (Prettier)
+	@echo   make typecheck         - Vérifie les types (TSC)
+	@echo   make clean             - Supprime build et node_modules
+	@echo   make help              - Affiche cette aide
+	@echo.
+
+install:
+	@echo [*] Installation des dépendances...
+	npm install
+
+dev:
+	@echo [*] Lancement en développement...
+	npm run dev
+
+dev-watch:
+	@echo [*] Lancement avec watch...
+	npm run dev:watch
+
+build:
+	@echo [*] Compilation...
+	npm run build
+
+build-win:
+	@echo [*] Build Windows...
+	npm run build:win
+
+build-mac:
+	@echo [*] Build macOS...
+	npm run build:mac
+
+build-linux:
+	@echo [*] Build Linux...
+	npm run build:linux
+
+lint:
+	@echo [*] Vérification ESLint...
+	npm run lint
+
+format:
+	@echo [*] Formatage du code...
+	npm run format
+
+typecheck:
+	@echo [*] Vérification des types...
+	npm run typecheck
+
+clean:
+	@echo [*] Nettoyage...
+	rmdir /s /q node_modules dist out 2>nul || true
+	@echo [+] Nettoyage terminé
