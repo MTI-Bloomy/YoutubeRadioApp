@@ -3,7 +3,7 @@ import YouTube from 'react-youtube'
 import SearchBar from './RadioSearchBar'
 
 type MusicPlayerProps = {
-  initialVideoId?: string,
+  initialVideoId?: string
   onVideoChange?: (videoId: string) => void
 }
 
@@ -13,7 +13,8 @@ const MusicPlayer: React.FC<MusicPlayerProps> = (props) => {
   console.log('MusicPlayer initialized with props:', JSON.stringify(props))
 
   function youtube_parser(url: string): string | false {
-    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(live\/)|(watch\?))\??v?=?([^#&?]*).*/
+    const regExp =
+      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(live\/)|(watch\?))\??v?=?([^#&?]*).*/
     const match = url.match(regExp)
     return match && match[8].length == 11 ? match[8] : false
   }
