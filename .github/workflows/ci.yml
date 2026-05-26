@@ -13,6 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      
       - name: Installation des dépendances
         run: yarn install
 
@@ -27,8 +34,14 @@ jobs:
 
       - name: Installation de git-secrets
         run: |
-          yarn global add git-secrets
+          git clone https://github.com/awslabs/git-secrets.git
+          cd git-secrets
+          make install
+      
+      - name: Configuration de git-secrets
+        run: |
           git secrets --install
+          git secrets --register-aws
 
       - name: Scan des secrets
         run: git secrets --scan
