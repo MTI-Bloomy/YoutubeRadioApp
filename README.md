@@ -59,8 +59,7 @@ Les executables se trouvent dans le dossier `dist/`.
 
 | Raccourci | Action |
 |-----------|--------|
-| `Ctrl+Shift+O` (Windows/Linux) | Toggle overlay mode (opaque/transparent) |
-| `Cmd+Shift+O` (macOS) | Toggle overlay mode |
+| `Ctrl+Shift+O` (Windows/Linux/macOS) | Toggle overlay mode (opaque/transparent) |
 
 ### Features
 
