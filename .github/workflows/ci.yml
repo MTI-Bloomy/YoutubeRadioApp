@@ -27,7 +27,7 @@ jobs:
 
       - name: Installation de git-secrets
         run: 
-          yarn global add git-secrets
+          yarn global add git-secrets && \
           git secrets --install
 
       - name: Scan des secrets
