@@ -25,6 +25,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = (props) => {
       console.error('Invalid YouTube link')
       alert('Invalid YouTube link. Please try again.')
     } else {
+      fetch("http://localhost:3000/search", {
+        method: "POST",
+      });
+
       setRadioId(id)
       props.onVideoChange?.(id)
     }
