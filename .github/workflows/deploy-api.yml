@@ -1,0 +1,41 @@
+name: Deploy metrics-api
+
+on:
+  tag:
+    types: [created]
+    pattern: 'api-v*.*.*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install cloudflared
+        run: |
+          wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+          sudo dpkg -i cloudflared-linux-amd64.deb
+
+      - name: SSH deploy
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.RPI_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          cat >> ~/.ssh/config << EOF
+          Host rpi
+            HostName ${{ secrets.RPI_HOST }}
+            User deploy
+            IdentityFile ~/.ssh/id_ed25519
+            ProxyCommand cloudflared access ssh --hostname %h
+            StrictHostKeyChecking no
+          EOF
+
+      - name: Deploy
+        run: |
+          ssh rpi "
+            cd /home/deploy/metrics-api &&
+            git pull &&
+            docker compose up -d --build
+          "
