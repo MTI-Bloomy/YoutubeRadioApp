@@ -1,9 +1,9 @@
 name: Deploy metrics-api
 
 on:
-  tags:
-    types: [created]
-    pattern: 'api-v*.*.*'
+  push:
+    tags:
+      'api-v*.*.*'
 
 jobs:
   deploy:
