@@ -31,10 +31,7 @@ jobs:
               run: corepack enable
 
             - name: Install dependencies
-              run: yarn install --immutable --ignore-scripts
-
-            - name: Run Postinstall manully with yarn
-              run: yarn electron-builder install-app-deps
+              run: yarn install --immutable
 
             - name: Build
               run: yarn build
