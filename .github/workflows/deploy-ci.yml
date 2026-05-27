@@ -29,6 +29,10 @@ jobs:
 
             - name: Enable Corepack
               run: corepack enable
+
+            - name: Set npm to use yarn
+              run: npm config set npm_execpath "$(which yarn)"
+
             - name: Install dependencies
               run: yarn install --immutable
 
