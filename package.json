@@ -21,7 +21,8 @@
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux",
-    "publish": "electron-builder --publish always"
+    "publish": "electron-builder --publish always",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
@@ -64,6 +65,7 @@
     "react-dom": "^19.1.0",
     "ts-jest": "^29.4.11",
     "typescript": "^5.8.3",
-    "vite": "^6.2.6"
+    "vite": "^6.2.6",
+    "husky": "^8.0.0"
   }
 }
