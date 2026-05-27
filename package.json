@@ -6,7 +6,7 @@
   "author": "Sarah Tsangou <",
   "scripts": {
     "test": "jest --silent",
-    "coverage": "jest --coverage",
+    "coverage": "jest --silent --coverage",
     "format": "prettier --write .",
     "lint": "eslint --cache .",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",

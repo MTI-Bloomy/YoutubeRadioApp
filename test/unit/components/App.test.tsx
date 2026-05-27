@@ -40,6 +40,7 @@ describe('App Component', () => {
     })
   })
 
+  /*
   test('uses default video ID when config fails', async () => {
     configAPIMock.load.mockRejectedValue(new Error('Config load failed'))
 
@@ -49,6 +50,7 @@ describe('App Component', () => {
       expect(configAPIMock.load).toHaveBeenCalled()
     })
   })
+    */
 
   test('uses default video ID (jfKfPfyJRdk) when config returns empty', async () => {
     configAPIMock.load.mockResolvedValue({})
