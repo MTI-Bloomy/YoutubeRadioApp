@@ -3,7 +3,7 @@ name: Deploy metrics-api
 on:
   push:
     tags:
-      'api-v*.*.*'
+      - 'api-v*.*.*'
 
 jobs:
   deploy:
