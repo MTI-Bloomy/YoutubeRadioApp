@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.web.json",
+  "include": [
+    "test/**/*",
+    "src/renderer/src/**/*",
+    "src/renderer/src/**/*.tsx"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "types": ["jest", "node", "@testing-library/jest-dom"],
+    "jsx": "react-jsx",
+  }
+}
