@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import fs from 'fs'
+import { sendDiscordCrashReport } from './services/discordCrashReporter'
 
 function createWindow(): void {
   // Create the browser window.
@@ -97,18 +98,35 @@ if (!isSingleInstance) {
     const configPath = join(app.getPath('userData'), 'config.json')
 
     ipcMain.handle('config:load', async () => {
-      console.log(`Loading config from ${configPath}`)
-      if (!fs.existsSync(configPath)) {
-        console.log('Config file does not exist, returning empty config.')
-        return {}
+      try {
+        console.log(`Loading config from ${configPath}`)
+        if (!fs.existsSync(configPath)) {
+          console.log('Config file does not exist, returning empty config.')
+          return {}
+        }
+
+        const config = fs.readFileSync(configPath, 'utf-8')
+        return JSON.parse(config)
+      } catch (error) {
+        await sendDiscordCrashReport({
+          scope: 'config:load',
+          error
+        })
+        throw error
       }
-      const config = fs.readFileSync(configPath, 'utf-8')
-      return JSON.parse(config)
     })
 
     ipcMain.handle('config:save', async (_e, data) => {
-      console.log(`Saving config to ${configPath}`)
-      fs.writeFileSync(configPath, JSON.stringify(data, null, 2))
+      try {
+        console.log(`Saving config to ${configPath}`)
+        fs.writeFileSync(configPath, JSON.stringify(data, null, 2))
+      } catch (error) {
+        await sendDiscordCrashReport({
+          scope: 'config:save',
+          error
+        })
+        throw error
+      }
     })
 
     createWindow()
