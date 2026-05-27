@@ -26,7 +26,6 @@ jobs:
               uses: actions/setup-node@v6
               with:
                 node-version: 20
-                npm-version: latest
 
             - name: Install dependencies
               run: yarn install --immutable
