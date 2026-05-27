@@ -1,0 +1,33 @@
+name: Create Release
+
+on:
+    push:
+        branches:
+            - main
+        tags:
+            - 'v*.*.*'
+
+jobs:
+    create-release:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest, macos-latest]
+        
+        steps:
+            - name: Check out Git Repo
+              uses: actions/checkout@v6
+
+            - name: Install Node, NPM & Yarn
+              uses: actions/setup-node@v6
+              with:
+                node-version: 20
+                cache: yarn
+
+            - name: Install dependencies
+              run: yarn install --immutable
+
+            - name: Build
+              run: yarn build
+
+            - uses:  simenandre/publish-with-yarn@v1 
