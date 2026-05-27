@@ -6,10 +6,6 @@ import './styles/index.css'
 
 void metricsService.connect()
 
-window.addEventListener('beforeunload', () => {
-  void metricsService.disconnect()
-})
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />

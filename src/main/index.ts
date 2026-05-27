@@ -147,5 +147,39 @@ app.on('window-all-closed', () => {
   }
 })
 
+async function sendDisconnect(): Promise<void> {
+  const apiUrl = process.env.API_URL?.trim()
+  const apiKey = process.env.API_KEY?.trim()
+
+  if (!apiUrl || !apiKey) {
+    console.warn('Metrics disconnect skipped: missing API_URL or API_KEY')
+    return
+  }
+
+  try {
+    // Use the Node/Electron fetch implementation available in recent runtimes
+    await fetch(`${apiUrl}/disconnect`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`
+      }
+    })
+  } catch (error) {
+    console.error('Failed to send metrics disconnect from main process:', error)
+  }
+}
+
+// Ensure we send a disconnect event when the app is quitting.
+app.on('before-quit', (e) => {
+  // Prevent default so we can attempt to send the disconnect
+  e.preventDefault()
+
+  void (async () => {
+    await sendDisconnect()
+    // Exit after attempting the request
+    app.exit(0)
+  })()
+})
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
