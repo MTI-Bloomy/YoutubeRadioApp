@@ -5,8 +5,7 @@
  */
 
 import { render } from '../../utils/testUtils'
-// Runtime imports - these are available through the testing-library runtime
-const { screen, waitFor } = require('@testing-library/react')
+import { screen, waitFor } from '@testing-library/react'
 import App from '../../../src/renderer/src/App'
 import { configAPIMock, ipcRendererMock } from '../../mocks/electron'
 

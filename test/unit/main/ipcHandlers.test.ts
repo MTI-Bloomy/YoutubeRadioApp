@@ -168,19 +168,13 @@ describe('Main Process IPC Handlers', () => {
       const error = new Error('Permission denied')
       ipcRendererMock.invoke.mockRejectedValue(error)
 
-      await expect(ipcRendererMock.invoke('config:save', {})).rejects.toThrow(
-        'Permission denied'
-      )
+      await expect(ipcRendererMock.invoke('config:save', {})).rejects.toThrow('Permission denied')
     })
 
     test('handles multiple consecutive saves', async () => {
       ipcRendererMock.invoke.mockResolvedValue(undefined)
 
-      const configs = [
-        { lastVideoID: 'id1' },
-        { lastVideoID: 'id2' },
-        { lastVideoID: 'id3' }
-      ]
+      const configs = [{ lastVideoID: 'id1' }, { lastVideoID: 'id2' }, { lastVideoID: 'id3' }]
 
       for (const config of configs) {
         await ipcRendererMock.invoke('config:save', config)
@@ -244,9 +238,7 @@ describe('Main Process IPC Handlers', () => {
       const error1 = new Error('Error 1')
       const error2 = new Error('Error 2')
 
-      ipcRendererMock.invoke
-        .mockRejectedValueOnce(error1)
-        .mockRejectedValueOnce(error2)
+      ipcRendererMock.invoke.mockRejectedValueOnce(error1).mockRejectedValueOnce(error2)
 
       await expect(ipcRendererMock.invoke('config:load')).rejects.toThrow('Error 1')
       await expect(ipcRendererMock.invoke('config:load')).rejects.toThrow('Error 2')

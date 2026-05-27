@@ -3,7 +3,6 @@
  * Tests: form submission, input handling, callback propagation, empty field handling
  */
 
-import React from 'react'
 import { render, screen, fireEvent, userEvent } from '../../utils/testUtils'
 import RadioSearchBar from '../../../src/renderer/src/components/RadioSearchBar'
 

@@ -23,7 +23,6 @@ const customRender = (
   return render(ui, { wrapper: Wrapper, ...options })
 }
 
-export * from '@testing-library/react'
 export { customRender as render, userEvent }
 // Explicitly re-export commonly used testing utilities
 export const screen = testingLibrary.screen

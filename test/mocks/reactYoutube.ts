@@ -7,11 +7,11 @@ import React from 'react'
 
 interface YouTubeProps {
   videoId?: string
-  opts?: any
+  opts?: unknown
   className?: string
-  onReady?: (event: any) => void
-  onError?: (event: any) => void
-  onStateChange?: (event: any) => void
+  onReady?: (event: unknown) => void
+  onError?: (event: unknown) => void
+  onStateChange?: (event: unknown) => void
 }
 
 const YouTube: React.FC<YouTubeProps> = ({ videoId, className }) => {

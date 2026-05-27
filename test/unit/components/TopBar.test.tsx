@@ -3,7 +3,6 @@
  * Tests: close/minimize button clicks, IPC calls, draggable title bar
  */
 
-import React from 'react'
 import { render, screen, fireEvent } from '../../utils/testUtils'
 import TopBar from '../../../src/renderer/src/components/TopBar'
 import { ipcRendererMock } from '../../mocks/electron'

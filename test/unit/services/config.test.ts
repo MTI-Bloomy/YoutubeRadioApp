@@ -59,9 +59,7 @@ describe('Config Service', () => {
       const error = new Error('IPC communication failed')
       configAPIMock.load.mockRejectedValue(error)
 
-      await expect(configService.loadConfig()).rejects.toThrow(
-        'IPC communication failed'
-      )
+      await expect(configService.loadConfig()).rejects.toThrow('IPC communication failed')
     })
 
     test('rejects with TypeError when API returns invalid data', async () => {

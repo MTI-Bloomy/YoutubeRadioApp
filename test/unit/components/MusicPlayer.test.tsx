@@ -3,7 +3,6 @@
  * Tests: YouTube URL regex parsing, video ID extraction, player rendering
  */
 
-import React from 'react'
 import { render, screen, fireEvent, userEvent } from '../../utils/testUtils'
 import MusicPlayer from '../../../src/renderer/src/components/MusicPlayer'
 
@@ -36,10 +35,7 @@ describe('MusicPlayer Component', () => {
     await userEvent.type(input, 'https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     fireEvent.click(submitButton)
 
-    expect(screen.getByTestId('youtube-player')).toHaveAttribute(
-      'data-video-id',
-      'dQw4w9WgXcQ'
-    )
+    expect(screen.getByTestId('youtube-player')).toHaveAttribute('data-video-id', 'dQw4w9WgXcQ')
   })
 
   test('extracts video ID from youtu.be/ short URL format', async () => {
@@ -51,10 +47,7 @@ describe('MusicPlayer Component', () => {
     await userEvent.type(input, 'https://youtu.be/dQw4w9WgXcQ')
     fireEvent.click(submitButton)
 
-    expect(screen.getByTestId('youtube-player')).toHaveAttribute(
-      'data-video-id',
-      'dQw4w9WgXcQ'
-    )
+    expect(screen.getByTestId('youtube-player')).toHaveAttribute('data-video-id', 'dQw4w9WgXcQ')
   })
 
   test('extracts video ID from youtube.com/v/ URL format', async () => {
@@ -66,10 +59,7 @@ describe('MusicPlayer Component', () => {
     await userEvent.type(input, 'https://www.youtube.com/v/dQw4w9WgXcQ')
     fireEvent.click(submitButton)
 
-    expect(screen.getByTestId('youtube-player')).toHaveAttribute(
-      'data-video-id',
-      'dQw4w9WgXcQ'
-    )
+    expect(screen.getByTestId('youtube-player')).toHaveAttribute('data-video-id', 'dQw4w9WgXcQ')
   })
 
   test('extracts video ID from youtube.com/embed/ URL format', async () => {
@@ -81,10 +71,7 @@ describe('MusicPlayer Component', () => {
     await userEvent.type(input, 'https://www.youtube.com/embed/dQw4w9WgXcQ')
     fireEvent.click(submitButton)
 
-    expect(screen.getByTestId('youtube-player')).toHaveAttribute(
-      'data-video-id',
-      'dQw4w9WgXcQ'
-    )
+    expect(screen.getByTestId('youtube-player')).toHaveAttribute('data-video-id', 'dQw4w9WgXcQ')
   })
 
   test('rejects invalid video IDs (too short)', async () => {
