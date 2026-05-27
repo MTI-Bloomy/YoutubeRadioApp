@@ -37,7 +37,7 @@ jobs:
       - name: Deploy
         run: |
           ssh rpi "
-            cd /home/deploy/metrics-api &&
+            cd /home/deploy/YoutubeRadioApp &&
             git pull &&
             docker compose up -d --build
           "
