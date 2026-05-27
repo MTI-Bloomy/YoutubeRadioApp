@@ -18,6 +18,9 @@ jobs:
         steps:
             - name: Check out Git Repo
               uses: actions/checkout@v6
+              with:
+                fetch-depth: 0
+                fetch-tags: true
 
             - name: Install Node, NPM & Yarn
               uses: actions/setup-node@v6
