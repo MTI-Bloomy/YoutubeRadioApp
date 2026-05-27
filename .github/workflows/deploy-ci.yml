@@ -8,6 +8,10 @@ on:
         tags:
             - 'v*.*.*'
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
     create-release:
         runs-on: ${{ matrix.os }}
@@ -33,7 +37,7 @@ jobs:
             - name: Install dependencies
               run: yarn install --immutable
 
-            - name: Build
-              run: yarn build
-
-            - uses:  simenandre/publish-with-yarn@v1 
+            - name: Build and Publish
+              run: yarn run publish
+              env:
+                GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
