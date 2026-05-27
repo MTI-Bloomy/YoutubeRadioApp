@@ -6,7 +6,7 @@ on:
             - main
             - deploiement-avance
         tags:
-            - '*.*.*'
+            - 'v*.*.*'
 
 jobs:
     create-release:
@@ -26,7 +26,6 @@ jobs:
               uses: actions/setup-node@v6
               with:
                 node-version: 20
-                cache: yarn
 
             - name: Install dependencies
               run: yarn install --immutable
