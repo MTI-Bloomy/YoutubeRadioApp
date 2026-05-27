@@ -1,6 +1,6 @@
 import express from "express";
 import client from "./metrics";
-import { youtubeSearchCounter } from "./metrics";
+import { youtubeSearchCounter, connectedUsersGauge } from "./metrics";
 
 const app = express();
 
@@ -9,7 +9,17 @@ app.use(express.json());
 app.post("/search", (req, res) => {
   youtubeSearchCounter.inc();
 
-  console.log("search metric received");
+  res.sendStatus(200);
+});
+
+app.post("/connect", (req, res) => {
+  connectedUsersGauge.inc();
+
+  res.sendStatus(200);
+});
+
+app.post("/disconnect", (req, res) => {
+  connectedUsersGauge.dec();
 
   res.sendStatus(200);
 });

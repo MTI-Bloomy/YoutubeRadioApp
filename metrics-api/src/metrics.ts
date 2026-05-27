@@ -5,6 +5,11 @@ export const youtubeSearchCounter = new client.Counter({
   help: "Nombre total de recherches YouTube",
 });
 
+export const connectedUsersGauge = new client.Gauge({
+  name: "connected_users",
+  help: "Nombre d'utilisateurs connectés",
+});
+
 client.collectDefaultMetrics();
 
 export default client;
