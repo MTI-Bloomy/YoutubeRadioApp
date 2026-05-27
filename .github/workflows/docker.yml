@@ -14,7 +14,7 @@ jobs:
 
   compose-smoke:
     runs-on: ubuntu-latest
-    environment: Quiz Master Back
+    environment: Youtube Radio App
     needs: [docker-build]
     steps:
       - uses: actions/checkout@v4

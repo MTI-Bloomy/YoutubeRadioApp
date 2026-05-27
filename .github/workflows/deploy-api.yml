@@ -9,6 +9,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    environment: Youtube Radio App
+
     steps:
       - uses: actions/checkout@v4
 
