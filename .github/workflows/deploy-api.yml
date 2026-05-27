@@ -1,7 +1,7 @@
 name: Deploy metrics-api
 
 on:
-  tag:
+  tags:
     types: [created]
     pattern: 'api-v*.*.*'
 
