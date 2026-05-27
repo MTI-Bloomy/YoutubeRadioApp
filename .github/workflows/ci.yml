@@ -1,0 +1,49 @@
+name: Security
+
+on:
+  pull_request:
+    branches: 
+      - "**"
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      
+      - name: Installation des dépendances
+        run: yarn install
+
+      - name: Audit des dépendances
+        run: yarn audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Installation de Semgrep
+        run: pip install semgrep
+
+      - name: Analyse de code statique
+        run: semgrep scan --config=auto .
+        continue-on-error: true
+
+      - name: Installation de git-secrets
+        run: |
+          git clone https://github.com/awslabs/git-secrets.git
+          cd git-secrets
+          sudo make install
+      
+      - name: Configuration de git-secrets
+        run: |
+          git secrets --install
+          git secrets --register-aws
+
+      - name: Scan des secrets
+        run: git secrets --scan
+
+      - name: Scan des secrets dans l'historique
+        run: git secrets --scan-history
