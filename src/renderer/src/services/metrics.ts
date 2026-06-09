@@ -11,7 +11,7 @@ async function postMetricEvent(path: string): Promise<void> {
     await fetch(`${apiUrl}${path}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`
+        Authorization: `Bearer ${apiKey}`
       }
     })
   } catch (error) {

@@ -1,6 +1,6 @@
-import express from "express";
-import client from "./metrics";
-import { youtubeSearchCounter, connectedUsersGauge } from "./metrics";
+import express from 'express'
+import client from './metrics'
+import { youtubeSearchCounter, connectedUsersGauge } from './metrics'
 import { existsSync } from 'fs'
 import { resolve } from 'path'
 import dotenv from 'dotenv'
@@ -18,7 +18,7 @@ for (const envPath of envPaths) {
   }
 }
 
-const app = express();
+const app = express()
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
@@ -31,43 +31,43 @@ app.options(/.*/, (_req, res) => {
   res.sendStatus(204)
 })
 
-app.use(express.json());
+app.use(express.json())
 
-app.post("/search", (req, res) => {
-  if (req.header("Authorization") !== `Bearer ${process.env.API_KEY}`) {
-    return res.sendStatus(401);
+app.post('/search', (req, res) => {
+  if (req.header('Authorization') !== `Bearer ${process.env.API_KEY}`) {
+    return res.sendStatus(401)
   }
 
-  youtubeSearchCounter.inc();
+  youtubeSearchCounter.inc()
 
-  res.sendStatus(200);
-});
+  res.sendStatus(200)
+})
 
-app.post("/connect", (req, res) => {
-  if (req.header("Authorization") !== `Bearer ${process.env.API_KEY}`) {
-    return res.sendStatus(401);
-  }
-  
-  connectedUsersGauge.inc();
-
-  res.sendStatus(200);
-});
-
-app.post("/disconnect", (req, res) => {
-  if (req.header("Authorization") !== `Bearer ${process.env.API_KEY}`) {
-    return res.sendStatus(401);
+app.post('/connect', (req, res) => {
+  if (req.header('Authorization') !== `Bearer ${process.env.API_KEY}`) {
+    return res.sendStatus(401)
   }
 
-  connectedUsersGauge.dec();
+  connectedUsersGauge.inc()
 
-  res.sendStatus(200);
-});
+  res.sendStatus(200)
+})
 
-app.get("/metrics", async (_req, res) => {
-  res.set("Content-Type", client.register.contentType);
-  res.end(await client.register.metrics());
-});
+app.post('/disconnect', (req, res) => {
+  if (req.header('Authorization') !== `Bearer ${process.env.API_KEY}`) {
+    return res.sendStatus(401)
+  }
+
+  connectedUsersGauge.dec()
+
+  res.sendStatus(200)
+})
+
+app.get('/metrics', async (_req, res) => {
+  res.set('Content-Type', client.register.contentType)
+  res.end(await client.register.metrics())
+})
 
 app.listen(3000, () => {
-  console.log("metrics api running on :3000");
-});
+  console.log('metrics api running on :3000')
+})

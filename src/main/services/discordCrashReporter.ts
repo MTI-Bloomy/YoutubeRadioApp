@@ -34,8 +34,9 @@ export async function sendDiscordCrashReport(context: CrashReportContext): Promi
   const normalizedError = normalizeError(context.error)
   // dedupe same error signature for a short window to avoid duplicates
   const signature = `${context.scope}::${String(normalizedError.message ?? '')}`.slice(0, 400)
-  if (!(sendDiscordCrashReport as any)._recentSignatures) (sendDiscordCrashReport as any)._recentSignatures = new Set<string>()
-  const set: Set<string> = (sendDiscordCrashReport as any)._recentSignatures
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let set: Set<string> = (sendDiscordCrashReport as any)._recentSignatures
+  if (!set) set = new Set<string>()
   if (set.has(signature)) return
   set.add(signature)
   setTimeout(() => set.delete(signature), 5000)
@@ -76,7 +77,9 @@ export async function sendDiscordCrashReport(context: CrashReportContext): Promi
     })
 
     if (!response.ok) {
-      console.error(`Failed to send Discord crash report: ${response.status} ${response.statusText}`)
+      console.error(
+        `Failed to send Discord crash report: ${response.status} ${response.statusText}`
+      )
     }
   } catch (reportError) {
     console.error('Failed to send Discord crash report:', reportError)
