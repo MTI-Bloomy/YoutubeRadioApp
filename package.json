@@ -9,17 +9,18 @@
     "lint": "eslint --cache .",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
-    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "typecheck": "yarn run typecheck:node && yarn run typecheck:web",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
     "dev:watch": "electron-vite dev --watch",
-    "build": "npm run typecheck && electron-vite build",
-    "postinstall": "electron-builder install-app-deps",
-    "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win",
+    "build": "yarn run typecheck && electron-vite build",
+    "postinstall": "yarn electron-builder install-app-deps",
+    "build:unpack": "yarn run build && electron-builder --dir",
+   "build:win": "yarn run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux",
-    "publish": "electron-builder --publish always"
+    "publish": "electron-builder --publish always",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
@@ -56,6 +57,7 @@
     "react-dom": "^19.1.0",
     "typescript": "^5.8.3",
     "vite": "^6.2.6",
-    "dotenv": "^16.1.4"
+    "dotenv": "^16.1.4",
+    "husky": "^8.0.0"
   }
 }
