@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import YouTube from 'react-youtube'
 import SearchBar from './RadioSearchBar'
+import { metricsService } from '../services/metrics'
 
 type MusicPlayerProps = {
   initialVideoId?: string
@@ -25,6 +26,8 @@ const MusicPlayer: React.FC<MusicPlayerProps> = (props) => {
       console.error('Invalid YouTube link')
       alert('Invalid YouTube link. Please try again.')
     } else {
+      void metricsService.search()
+
       setRadioId(id)
       props.onVideoChange?.(id)
     }
