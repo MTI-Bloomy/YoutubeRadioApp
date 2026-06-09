@@ -12,6 +12,7 @@
     "baseUrl": ".",
     "module": "Node16",
     "moduleResolution": "node16",
+    "types": ["jest"],
     "paths": {
       "@renderer/*": [
         "src/renderer/src/*"
