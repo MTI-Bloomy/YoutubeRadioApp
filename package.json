@@ -3,7 +3,12 @@
   "version": "1.0.2",
   "description": "A simple Overlay for Youtube videos",
   "main": "./out/main/index.js",
-  "author": "Sarah Tsangou <",
+   "authors": [
+    "Camille Forestier <camille.forestier@epita.fr>",
+    "Lena Cerinotti <lena.cerinotti@epita.fr>",
+    "Maël Roustit <mael.roustit@epita.fr>",
+    "Sarah Tsangou-Wanvoukissa <sarah.tsangou-wanvoukissa@epita.fr>"
+  ],
   "scripts": {
     "test": "jest --silent",
     "coverage": "jest --silent --coverage",
