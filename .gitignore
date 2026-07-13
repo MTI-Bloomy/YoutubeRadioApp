@@ -5,3 +5,5 @@ out
 .eslintcache
 *.log*
 YoutubeRadio-win32-x64
+.env
+coverage

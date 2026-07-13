@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  pull_request:
+    branches: main
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker images
+        run: docker compose build
+
+  compose-smoke:
+    runs-on: ubuntu-latest
+    environment: Youtube Radio App
+    needs: [docker-build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create .env for CI
+        run: |
+          cat > .env << 'EOF'
+          ${{ secrets.CI_ENV_FILE }}
+          EOF
+
+      - name: Start stack
+        run: docker compose up -d --build
+
+      - name: Wait and smoke test APIs
+        run: |
+          for url in \
+            http://localhost:3000/metrics
+          do
+            echo "Checking $url"
+            timeout 120 bash -c "until curl -fsS $url >/dev/null; do sleep 3; done"
+          done
+
+      - name: Print logs on failure
+        if: failure()
+        run: docker compose logs --no-color
+
+      - name: Shutdown
+        if: always()
+        run: docker compose down -v

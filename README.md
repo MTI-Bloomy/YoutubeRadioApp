@@ -97,6 +97,8 @@ YoutubeRadioApp/
 | `npm run build:win` | Compile + crée l'installer Windows |
 | `npm run build:mac` | Compile + crée le .dmg macOS |
 | `npm run build:linux` | Compile + crée les packages Linux |
+| `npm run test` | Launch TestSuites |
+| `npm run coverage` | Launch TestSuites and coverage|
 | `npm run lint` | Vérifie le code avec ESLint |
 | `npm run format` | Formate le code avec Prettier |
 | `npm run typecheck` | Vérifie les types TypeScript |
