@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import YouTube from 'react-youtube'
 import SearchBar from './RadioSearchBar'
-import { metricsService } from '../services/metrics'
 
 type MusicPlayerProps = {
   initialVideoId?: string
@@ -9,29 +8,9 @@ type MusicPlayerProps = {
 }
 
 const MusicPlayer: React.FC<MusicPlayerProps> = (props) => {
-  const [radioId, setRadioId] = useState(props.initialVideoId)
+  const [radioId] = useState(props.initialVideoId)
 
   console.log('MusicPlayer initialized with props:', JSON.stringify(props))
-
-  function youtube_parser(url: string): string | false {
-    const regExp =
-      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(live\/)|(watch\?))\??v?=?([^#&?]*).*/
-    const match = url.match(regExp)
-    return match && match[8].length == 11 ? match[8] : false
-  }
-
-  const updatePlayer = (link: string): void => {
-    const id = youtube_parser(link)
-    if (!id) {
-      console.error('Invalid YouTube link')
-      alert('Invalid YouTube link. Please try again.')
-    } else {
-      void metricsService.search()
-
-      setRadioId(id)
-      props.onVideoChange?.(id)
-    }
-  }
 
   const opts = {
     playerVars: {
